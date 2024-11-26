@@ -15,9 +15,9 @@ npm install -g npm
 apt install mariadb-server -y
 mariadb-secure-installation
 mariadb -u root -p
-> CREATE DATABASE mcslide;
-> CREATE USER 'mcslide_user'@'%' IDENTIFIED BY 'McSlide@112358';
-> GRANT ALL PRIVILEGES ON mcslide.* TO mcslide_user@%;
+> CREATE DATABASE ibp;
+> CREATE USER 'ibp_user'@'%' IDENTIFIED BY 'ibp@112358';
+> GRANT ALL PRIVILEGES ON ibp.* TO ibp_user@%;
 > FLUSH PRIVILEGES;
 > quit;
 nano /etc/mysql/mariadb.conf.d/50-server.cnf
@@ -51,15 +51,15 @@ nano /etc/php/8.2/apache2/php.ini
 systemctl restart apache2
 php -m
 a2enmod rewrite
-nano /etc/apache2/sites-available/mcslide.lucaciotti.space.conf
+nano /etc/apache2/sites-available/ibp.lucaciotti.space.conf
 
 <VirtualHost *:80>
-    ServerName mcslide.lucaciotti.space
+    ServerName ibp.lucaciotti.space
 
     ServerAdmin info@lucaciotti.space
-    DocumentRoot /var/www/mcslide.lucaciotti.space/current/public
+    DocumentRoot /var/www/ibp.lucaciotti.space/current/public
 
-    <Directory "/var/www/mcslide.lucaciotti.space/current/public">
+    <Directory "/var/www/ibp.lucaciotti.space/current/public">
             Options FollowSymLinks MultiViews
             Order Allow,Deny
             AllowOverride All
@@ -73,7 +73,7 @@ nano /etc/apache2/sites-available/mcslide.lucaciotti.space.conf
 
 </VirtualHost>
 
-a2ensite mcslide.lucaciotti.space.conf
+a2ensite ibp.lucaciotti.space.conf
 apachectl configtest
 systemctl restart apache2
 

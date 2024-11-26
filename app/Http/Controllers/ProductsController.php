@@ -8,6 +8,6 @@ class ProductsController extends Controller
 {
     public function index(Request $req)
     {
-        return view('mcslide.products');
+        return view('ibp.products');
     }
 }

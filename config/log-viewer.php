@@ -48,7 +48,7 @@ return [
 
     'back_to_system_url' => config('app.url', null),
 
-    'back_to_system_label' => 'McSlide_App', // Displayed by default: "Back to {{ app.name }}"
+    'back_to_system_label' => 'IBP_Inv', // Displayed by default: "Back to {{ app.name }}"
 
     /*
     |--------------------------------------------------------------------------

@@ -20,8 +20,8 @@ sail artisan make:export PlannedTaskExport --model=PlannedTask
 
 apt install libfontconfig1 libxrender1
 
-docker exec -u root mcslide-app-laravel.test-1 apt update
-docker exec -u root mcslide-app-laravel.test-1 apt install libfontconfig1 libxrender1
+docker exec -u root ibp-app-laravel.test-1 apt update
+docker exec -u root ibp-app-laravel.test-1 apt install libfontconfig1 libxrender1
 
 
 sail artisan mak:model InventorySessionWarehouse --migration

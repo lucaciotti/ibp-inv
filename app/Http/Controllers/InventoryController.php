@@ -13,22 +13,22 @@ class InventoryController extends Controller
 {
     public function confSessions(Request $req)
     {
-        return view('mcslide.inventory.sessions');
+        return view('ibp.inventory.sessions');
     }
 
     // public function invTickets(Request $req)
     // {
-    //     return view('mcslide.inventory.tickets');
+    //     return view('ibp.inventory.tickets');
     // }
 
     // public function invMeasurements(Request $req)
     // {
-    //     return view('mcslide.inventory.measurements');
+    //     return view('ibp.inventory.measurements');
     // }
 
     // public function invStats(Request $req)
     // {
-    //     return view('mcslide.inventory.stats');
+    //     return view('ibp.inventory.stats');
     // }
 
     public function invMeasurementsSimple(Request $req)
@@ -38,7 +38,7 @@ class InventoryController extends Controller
             $invSession = InventorySession::where('date_start', '<', Carbon::now())->where('active', true)->first();
         }
         if ($invSession) $req->session()->put('inventory.session.id', $invSession->id);
-        return view('mcslide.inventory.measurements_simple', ['invSession' => $invSession]);
+        return view('ibp.inventory.measurements_simple', ['invSession' => $invSession]);
     }
 
     public function invStatsSimple(Request $req, $id=null)
@@ -55,7 +55,7 @@ class InventoryController extends Controller
             }
         }
         $invSession = ($req->session()->has('inventory')) ? InventorySession::find($req->session()->get('inventory.session.id')) : null;
-        return view('mcslide.inventory.stats_simple', ['invSession' => $invSession]);
+        return view('ibp.inventory.stats_simple', ['invSession' => $invSession]);
     }
 
     public function exportXlsSimple(Request $req)

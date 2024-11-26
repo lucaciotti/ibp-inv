@@ -21,7 +21,7 @@ return [
     |
     */
 
-    'title' => 'McSlide_WMS',
+    'title' => 'IBP_Inv',
     'title_prefix' => '',
     'title_postfix' => '',
 
@@ -70,12 +70,12 @@ return [
     |
     */
 
-    'logo' => '<b>McSlide</b>wms',
+    'logo' => '<b>IBP</b>inv',
     'logo_img' => 'assets/img/logo.png', //'vendor/adminlte/dist/img/AdminLTELogo.png',
     'logo_img_class' => 'brand-image elevation-3',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
-    'logo_img_alt' => 'McSlide-wms',
+    'logo_img_alt' => 'IBP-inv',
 
     /*
     |--------------------------------------------------------------------------
@@ -94,7 +94,7 @@ return [
         'enabled' => true,
         'img' => [
             'path' => 'assets/img/logo.png', //'vendor/adminlte/dist/img/AdminLTELogo.png',
-            'alt' => 'McSlide Logo',
+            'alt' => 'IBP Logo',
             'class' => '',
             // 'width' => 50,
             'height' => 50,
@@ -138,7 +138,7 @@ return [
 
     'usermenu_enabled' => true,
     'usermenu_header' => true,
-    'usermenu_header_class' => 'bg-lightblue',
+    'usermenu_header_class' => 'bg-cyan',
     'usermenu_image' => false,
     'usermenu_desc' => false,
     'usermenu_profile_url' => false,
@@ -186,12 +186,12 @@ return [
     // 'classes_auth_footer' => 'text-center',
     // 'classes_auth_icon' => 'fa-fw text-light',
     // 'classes_auth_btn' => 'btn-flat btn-light',
-    'classes_auth_card' => 'card-outline card-primary text-sm',
+    'classes_auth_card' => 'card-outline card-info text-sm',
     'classes_auth_header' => '',
     'classes_auth_body' => '',
     'classes_auth_footer' => 'text-center',
     'classes_auth_icon' => '',
-    'classes_auth_btn' => 'btn-flat btn-primary',
+    'classes_auth_btn' => 'btn-flat btn-info',
 
     /*
     |--------------------------------------------------------------------------
@@ -218,14 +218,14 @@ return [
     // 'classes_topnav_container' => 'container',
 
     'classes_body' => 'text-sm',
-    'classes_brand' => 'navbar-lightblue',
+    'classes_brand' => 'navbar-cyan',
     'classes_brand_text' => 'text-lg',
     'classes_content_wrapper' => '',
     'classes_content_header' => '',
     'classes_content' => '',
-    'classes_sidebar' => 'sidebar-dark-lightblue elevation-4',
+    'classes_sidebar' => 'sidebar-dark-cyan elevation-4',
     'classes_sidebar_nav' => 'nav-legacy nav-child-indent nav-collapse-hide-child',
-    'classes_topnav' => 'navbar-lightblue navbar-dark',
+    'classes_topnav' => 'navbar-cyan navbar-dark',
     'classes_topnav_nav' => 'navbar-expand',
     'classes_topnav_container' => 'container',
 

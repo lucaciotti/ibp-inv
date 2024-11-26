@@ -9,13 +9,13 @@ class WarehouseController extends Controller
 {
     public function index(Request $req)
     {
-        return view('mcslide.warehouses.index');
+        return view('ibp.warehouses.index');
     }
 
     public function indexUbic(Request $req, $id)
     {
         $warehouse = Warehouse::find($id);
 
-        return view('mcslide.warehouses.ubications', ['warehouse' => $warehouse]);
+        return view('ibp.warehouses.ubications', ['warehouse' => $warehouse]);
     }
 }

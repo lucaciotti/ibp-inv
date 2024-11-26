@@ -33,7 +33,7 @@ class GenerateReports extends Modal
         $ticketsToPrint = InventorySessionTicket::whereIn('id', $this->ticketToPrintIds)->with('inventorySessionWarehouse')->get();
         $title = "Tagliandini Inventario";
         $subTitle = '';
-        $view = 'mcslide._exports.pdf.inventory_tickets';
+        $view = 'ibp._exports.pdf.inventory_tickets';
         $data = [
             'ticketsToPrint' => $ticketsToPrint,
         ];

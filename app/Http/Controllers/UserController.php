@@ -104,7 +104,7 @@ class UserController extends Controller
             // $user->save();
             // $user->sendPasswordResetNotification($token);
             if (App::environment(['local', 'staging'])) {
-                Mail::to('mcslidewms@lucaciotti.space')->cc(['luca.ciotti@gmail.com'])->send(new InviteUser($token, $user->id));
+                Mail::to('ibpwms@lucaciotti.space')->cc(['luca.ciotti@gmail.com'])->send(new InviteUser($token, $user->id));
             } else {
                 Mail::to($user->email)->bcc(['luca.ciotti@gmail.com'])->send(new InviteUser($token, $user->id));
             }

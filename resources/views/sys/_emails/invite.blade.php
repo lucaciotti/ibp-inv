@@ -1,7 +1,7 @@
 @component('mail::message')
 # Buongiorno, {{ $user->name }}
 
-l'account a lei riservato per accedere a McSlide-Wms è stato creato.  
+l'account a lei riservato per accedere a IBP-inv è stato creato.  
 
 Può accedere utilizzando il suo indirizzo email:  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **{{ $user->email }}**
@@ -21,5 +21,5 @@ Accedi Qui
 
 Ringraziando per l'attenzione, auguriamo un buon lavoro.  
 
-Staff McSlide.  
+Staff IBP.  
 @endcomponent
