@@ -41,19 +41,14 @@ class ProductsImport implements ToCollection, WithStartRow, WithChunkReading, Sk
     public function collection(Collection $rows)
     {
         foreach ($rows as $row) {
-            // $codUbi = $row[0];
-            // $codMag = ucfirst(substr($row[0], 0 ,1));
-            // $codProd = $row[1];
-            // $descr = $row[2];
-            // $um = 'PZ';
-            // $stockQta = $row[4];
             $codUbi = '';
             $codMag = '';
-            $codProd = $row[0];
-            $descr = Str::upper($row[1]);
-            $um = Str::upper($row[2]);
-            $stockQta = $row[3];
-            $barcode = $row[4];
+            $codClasse = $row[0];
+            $codProd = $row[1];
+            $descr = Str::upper($row[2]);
+            $um = Str::upper($row[3]);
+            $stockQta = 0;
+            $barcode = null;
 
             $year = (new DateTime())->format('Y');
 
@@ -96,6 +91,7 @@ class ProductsImport implements ToCollection, WithStartRow, WithChunkReading, Sk
                     $prod = Product::create([
                         'code' => $codProd,
                         'description' => $descr,
+                        'classe' => $codClasse,
                         'unit' => $um,
                         'barcode' => $barcode
                     ]);
