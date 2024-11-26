@@ -17,7 +17,7 @@
 
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Lista prodotti</h3>
+                <h3 class="card-title">Lista trattamenti</h3>
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool" title="Font Size Smaller" id="card-text-size">
                         <i class="fas fa-text-height fa-xs"></i>
@@ -40,7 +40,7 @@
                 </div>
                 @endif
                 <div style="">
-                    <livewire:products.products-table />
+                    <livewire:treatments.treatments-table />
                 </div>
             </div>
         </div>
@@ -52,8 +52,8 @@
             <div class="card-body">
                 {{-- @permission('xlsimport-create') --}}
                 <button class="btn btn-outline-warning btn-block"
-                    onclick="Livewire.emit('modal.open', 'products-import-file.imports-modal-edit');">
-                    <span class="fa fa-file-import"></span> Importa Prodotti/Stock
+                    onclick="Livewire.emit('modal.open', 'treatments-import-file.imports-modal-edit');">
+                    <span class="fa fa-file-import"></span> Importa Trattamenti dei Prodotti
                 </button>
                 {{-- @endpermission --}}
             </div>

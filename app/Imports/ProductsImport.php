@@ -97,6 +97,7 @@ class ProductsImport implements ToCollection, WithStartRow, WithChunkReading, Sk
                     ]);
                 } else {
                     $prod->description = $descr;
+                    $prod->classe = $codClasse;
                     $prod->unit = $um;
                     $prod->barcode = $barcode;
                     $prod->save();

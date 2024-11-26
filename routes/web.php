@@ -29,6 +29,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
     Route::get('/products', [App\Http\Controllers\ProductsController::class, 'index'])->name('products');
+    Route::get('/treatments', [App\Http\Controllers\ProductsController::class, 'treatments'])->name('treatments');
     Route::get('/warehouses', [App\Http\Controllers\WarehouseController::class, 'index'])->name('warehouses');
     Route::get('/warehouses/{id}/ubications', [App\Http\Controllers\WarehouseController::class, 'indexUbic'])->name('ubications');
 

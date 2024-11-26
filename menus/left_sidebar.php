@@ -62,6 +62,12 @@ $leftSidebar = [
         'laratrust'  => ['users-create'],
     ],
     [
+        'text'        => ' Trattamenti',
+        'url'         => 'treatments',
+        'icon'        => 'fas fa-paint-roller',
+        'laratrust'  => ['users-create'],
+    ],
+    [
         'text'        => ' Magazzini & Ubicazioni',
         'url'         => 'warehouses',
         'icon'        => 'fas fa-warehouse',

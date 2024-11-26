@@ -10,4 +10,9 @@ class ProductsController extends Controller
     {
         return view('ibp.products');
     }
+
+    public function treatments(Request $req)
+    {
+        return view('ibp.treatments');
+    }
 }
