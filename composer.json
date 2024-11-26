@@ -1,0 +1,93 @@
+{
+    "name": "lucaciotti/mcslide-wms",
+    "type": "project",
+    "description": "Warehouse Management System.",
+    "keywords": ["framework", "laravel"],
+    "license": "MIT",
+    "require": {
+        "php": "^8.0.2",
+        "barryvdh/laravel-snappy": "^1.0",
+        "cmixin/business-day": "^1.16",
+        "doctrine/dbal": "^3.6",
+        "guzzlehttp/guzzle": "^7.2",
+        "h4cc/wkhtmltoimage-amd64": "^0.12.4",
+        "h4cc/wkhtmltopdf-amd64": "^0.12.4",
+        "jeroennoten/laravel-adminlte": "^3.8",
+        "laravel/framework": "^9.19",
+        "laravel/sanctum": "^3.0",
+        "laravel/tinker": "^2.7",
+        "laravel/ui": "^4.2",
+        "livewire/livewire": "^2.11",
+        "maatwebsite/excel": "^3.1",
+        "milon/barcode": "^10.0",
+        "mpdf/mpdf": "^6.1",
+        "opcodesio/log-viewer": "^2.4",
+        "owen-it/laravel-auditing": "^13.5",
+        "predis/predis": "^2.1",
+        "rappasoft/laravel-livewire-tables": "^2.10",
+        "santigarcor/laratrust": "^7.2",
+        "wire-elements/pro": "^3.0"
+    },
+    "require-dev": {
+        "barryvdh/laravel-ide-helper": "^2.13",
+        "deployer/deployer": "^7.1",
+        "fakerphp/faker": "^1.9.1",
+        "laravel/pint": "^1.0",
+        "laravel/sail": "^1.0.1",
+        "mockery/mockery": "^1.4.4",
+        "nunomaduro/collision": "^6.1",
+        "phpunit/phpunit": "^9.5.10",
+        "spatie/laravel-ignition": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Database\\Factories\\": "database/factories/",
+            "Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover --ansi"
+        ],
+        "post-update-cmd": [
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
+            "Illuminate\\Foundation\\ComposerScripts::postUpdate",
+            "@php artisan ide-helper:generate",
+            "@php artisan ide-helper:meta"
+        ],
+        "post-root-package-install": [
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+        ],
+        "post-create-project-cmd": [
+            "@php artisan key:generate --ansi"
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "dont-discover": []
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://wire-elements-pro.composer.sh"
+        }
+    ],
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
