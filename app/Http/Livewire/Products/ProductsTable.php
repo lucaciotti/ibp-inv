@@ -48,6 +48,9 @@ class ProductsTable extends DataTableComponent
             Column::make("Descrizione", "description")
             ->searchable()
                 ->sortable(),
+            Column::make("Classe", "classe")
+                ->searchable()
+                ->sortable(),
             Column::make("UM", "unit")
                 ->searchable()
                 ->sortable(),
