@@ -11,6 +11,7 @@
 {{-- Page Content Header --}}
 @section('content_header')
     @hasSection('content_header_title')
+    {{-- style="font-size: 18px;" --}}
         <h1 class="text-muted">
             @yield('content_header_title')
 

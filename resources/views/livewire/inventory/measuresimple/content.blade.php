@@ -56,12 +56,17 @@
                     @endif
                 @else
                     <x-adminlte-input name="codProd" label="Codice Prodotto:" placeholder="Codice Prodotto" error-key="codProd" wire:model.lazy="codProd" disabled/>
+                    
                     <x-adminlte-input name="descrProd" label="Descrizione Prodotto:" placeholder="Descrizione Prodotto"
                         error-key="descrProd" wire:model.lazy="descrProd" disabled />
                     
+                    @if ($hasTreatment)
                     <hr>
-                    <x-adminlte-input name="codUbi" label="Codice Ubicazione:" placeholder="Codice Ubicazione" error-key="codUbi"
-                        wire:model.lazy="codUbi" />
+                    <x-adminlte-input name="codTreatment" label="Codice Trattamento:" placeholder="Codice Trattamento" error-key="codTreatment"
+                        wire:model.lazy="codTreatment" />
+                    @endif
+                    <hr>
+                    <x-adminlte-input name="codUbi" label="Codice Ubicazione:" placeholder="Codice Ubicazione" error-key="codUbi" wire:model.lazy="codUbi" />
                     
                     <hr>
                     <x-adminlte-input name="qty" label="Qta Inv:" placeholder="qty" type="number" error-key="qty" wire:model.lazy="qty" inputmode="numeric"

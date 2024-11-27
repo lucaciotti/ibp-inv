@@ -72,6 +72,12 @@ class MeasureSimpleTable extends DataTableComponent
             Column::make("Descr. Prodotto", "product.description")
                 ->sortable()
                 ->searchable(),
+            Column::make("Classe", "product.classe")
+                ->sortable()
+                ->searchable(),
+            Column::make("Trattamento", "treatment.code")
+                ->sortable()
+                ->searchable(),
             Column::make("Ubicazione", "ubication")
                 ->sortable()
                 ->searchable(),

@@ -2,9 +2,16 @@
 
 @section('title', 'Inventario')
 
-@section('content_header')
+{{-- @section('content_header')
 <h1>Misurazioni Inventariali <i>@if($invSession) [{{ $invSession->month }}/{{ $invSession->year }}] @endif </i> </h1>
+@stop --}}
+@section('content_header_title')
+Misurazioni Inventariali
 @stop
+@section('content_header_subtitle')
+<i>@if($invSession) [{{ $invSession->month }}/{{ $invSession->year }}] @endif </i>
+@stop
+
 
 @section('content-fluid')
 @if ($invSession)

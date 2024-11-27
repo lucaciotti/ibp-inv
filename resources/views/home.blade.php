@@ -5,7 +5,7 @@
 @section('content_header')
 <h1>Ciao,</h1>
     <h6 class="m-0 text-dark">
-        Questa è la tua dashbord di <strong>McSlice-Wms</strong>
+        Questa è la tua dashbord di <strong>IBP-inv</strong>
     </h6>
 @stop
 

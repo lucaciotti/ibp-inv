@@ -8,6 +8,7 @@ use App\Models\InventorySession;
 use App\Models\InventorySessionTicket;
 use App\Models\InventorySimple;
 use App\Models\Product;
+use App\Models\Treatment;
 use App\Models\Ubication;
 use Carbon\Carbon;
 use Str;
@@ -24,37 +25,62 @@ class Content extends DynamicContent
     public $month;
     public $periodo;
 
+    public $hasTreatment = false;
+    public $codClasse;
+    public $codTreatment;
+
     public $isToogleSearch = false;
     public $search = '';
     public $listProds = [];
     
-    public $invSessionTicket;
-    public $invSessionWarehouse;
-    public $invMeasurements;
+    // public $invSessionTicket;
+    // public $invSessionWarehouse;
+    // public $invMeasurements;
     public $invSession;
     public $product;
-    public $ubication;
-    public $productStock;
-
+    // public $productStock;
+    
     # Create Sparata
-    public $inventory_session_id;
-    public $inventory_session_warehouse_id;
-    public $inventory_ticket_id;
-    public $ticket;
+    // public $inventory_session_warehouse_id;
+    // public $inventory_ticket_id;
+    // public $ticket;
+    // public $warehouse_id;
+    // public $ubic_id;
+    
     public $product_id;
-    public $warehouse_id;
-    public $ubic_id;
+    public $treatment_id;
+    public $ubication;
     public $qty;
+    public $inventory_session_id;
 
     public function rules(): array
     {
-        return
+        if ($this->hasTreatment){
+            return
             [
-            'product_id' => ['required', 'numeric'],
-            'ubication' => ['nullable', 'string'],
-            'qty' => ['required', 'numeric'],
-            'inventory_session_id' => ['required', 'numeric'],
+                'product_id' => ['required', 'numeric'],
+                'treatment_id' => ['required', 'numeric'],
+                'ubication' => ['required', 'string'],
+                'qty' => ['required', 'numeric'],
+                'inventory_session_id' => ['required', 'numeric'],
             ];
+        } else {
+            return
+            [
+                'product_id' => ['required', 'numeric'],
+                'ubication' => ['required', 'string'],
+                'qty' => ['required', 'numeric'],
+                'inventory_session_id' => ['required', 'numeric'],
+            ];
+        }
+    }
+
+    public function messages()
+    {
+        return [
+            'treatment_id.required' => 'Valore Trattamento richiesto',
+            'ubication.required' => 'Valore Ubicazione richiesto.',
+        ];
     }
 
     public function mount()
@@ -80,26 +106,46 @@ class Content extends DynamicContent
 
     public function updatedCodProd()
     {
-        $this->product = Product::where('code', $this->codProd)->orWhere('barcode', $this->codProd)->get();
-        if ($this->product->count()!=1) {
+        $records = Product::where('code', $this->codProd)->orWhere('barcode', $this->codProd)->get();
+        if (!$records || $records->count()!=1) {
             $this->addError('codProd', 'Il Prodotto NON è valido!');
             return;
+        } else {
+            $this->product = $records->first();
         }
+
         $this->product_id = $this->product->id;
         $this->codProd = $this->product->code;
+        $this->codClasse = $this->product->classe;
         $this->descrProd = $this->product->description;
         $this->umProd = $this->product->unit;
+        $this->checkHasTreatment();
     }
     
     public function updatedCodUbi()
     {
-        // $this->ubication = Ubication::where('code', $this->codUbi)->first();
-        // if (!$this->ubication) {
-        //     $this->addError('codUbi', 'L\'Ubicazione NON è valida!');
-        //     return;
-        // }
+        $records = Ubication::where('code', $this->codUbi)->get();
+        if (!$records || $records->count() != 1) {
+            $this->addError('codUbi', 'L\'Ubicazione NON è valida!');
+            return;
+        } else {
+            $ubirecord = $records->first();
+        }
+
+        $this->ubication = $ubirecord->code;
+    }
+
+    public function updatedCodTreatment()
+    {
+        $records = Treatment::where('code', $this->codTreatment)->get();
+        if (!$records || $records->count() != 1) {
+            $this->addError('codTreatment', 'Il Trattamento NON è valida!');
+            return;
+        } else {
+            $record = $records->first();
+        }
         
-        // $this->ubic_id = $this->ubication->id;
+        $this->treatment_id = $record->id;
     }
 
     public function toogleSearch()
@@ -133,8 +179,14 @@ class Content extends DynamicContent
         }
         $this->product_id = $this->product->id;
         $this->codProd = $this->product->code;
+        $this->codClasse = $this->product->classe;
         $this->descrProd = $this->product->description;
         $this->umProd = $this->product->unit;
+        $this->checkHasTreatment();
+    }
+
+    public function checkHasTreatment(){
+        $this->hasTreatment = $this->codClasse=='PD';
     }
 
     public function save(){
