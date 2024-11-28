@@ -126,7 +126,7 @@ class Content extends DynamicContent
     {
         $records = Ubication::where('code', $this->codUbi)->get();
         if (!$records || $records->count() != 1) {
-            $this->addError('codUbi', 'L\'Ubicazione NON è valida!');
+            $this->addError('ubication', 'L\'Ubicazione NON è valida!');
             return;
         } else {
             $ubirecord = $records->first();
@@ -139,7 +139,7 @@ class Content extends DynamicContent
     {
         $records = Treatment::where('code', $this->codTreatment)->get();
         if (!$records || $records->count() != 1) {
-            $this->addError('codTreatment', 'Il Trattamento NON è valida!');
+            $this->addError('treatment_id', 'Il Trattamento NON è valida!');
             return;
         } else {
             $record = $records->first();
@@ -166,8 +166,8 @@ class Content extends DynamicContent
     public function searchListArt()
     {
         $this->listProds = Product::where('code', 'like', $this->search . '%')
-            ->orWhere('description', 'like', $this->search . '%')
-            ->orWhere('barcode', 'like', $this->search . '%')
+            ->orWhere('description', 'like', '%' . $this->search . '%')
+            ->orWhere('barcode', 'like', '%' . $this->search . '%')
             ->get()->toArray();
     }
 
@@ -191,6 +191,10 @@ class Content extends DynamicContent
 
     public function save(){
         $validatedData = $this->validate();
+        $errors = $this->getErrorBag();
+        dd($errors);
+        // With this error bag instance, you can do things like this:
+        $errors->add('some-key', 'Some message');
         InventorySimple::create($validatedData);
         $this->reset();
     }

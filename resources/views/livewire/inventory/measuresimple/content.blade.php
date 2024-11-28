@@ -62,11 +62,11 @@
                     
                     @if ($hasTreatment)
                     <hr>
-                    <x-adminlte-input name="codTreatment" label="Codice Trattamento:" placeholder="Codice Trattamento" error-key="codTreatment"
+                    <x-adminlte-input name="codTreatment" label="Codice Trattamento:" placeholder="Codice Trattamento" error-key="treatment_id"
                         wire:model.lazy="codTreatment" />
                     @endif
                     <hr>
-                    <x-adminlte-input name="codUbi" label="Codice Ubicazione:" placeholder="Codice Ubicazione" error-key="codUbi" wire:model.lazy="codUbi" />
+                    <x-adminlte-input name="codUbi" label="Codice Ubicazione:" placeholder="Codice Ubicazione" error-key="ubication" wire:model.lazy="codUbi" />
                     
                     <hr>
                     <x-adminlte-input name="qty" label="Qta Inv:" placeholder="qty" type="number" error-key="qty" wire:model.lazy="qty" inputmode="numeric"
