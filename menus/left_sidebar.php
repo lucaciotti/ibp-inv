@@ -10,19 +10,19 @@ $leftSidebar = [
     [
         'header' => 'Inventario Semplificato',
         'classes'  => 'text-bold text-center',
-        'laratrust'  => ['completed-read'],
+        'laratrust'  => ['tasks-read'],
     ],
     [
         'text'        => ' Misurazioni Inventario',
         'url'         => 'inventory/measurements_simple',
         'icon'        => 'fas fa-tasks',
-        'laratrust'  => ['completed-read'],
+        'laratrust'  => ['tasks-read'],
     ],
     [
         'text'        => ' Gestione Inventario',
         'url'         => 'inventory/stats_simple',
         'icon'        => 'fas fa-chart-bar',
-        'laratrust'  => ['users-create'],
+        'laratrust'  => ['tasks-update'],
     ],
 
     // [
@@ -53,36 +53,36 @@ $leftSidebar = [
     [
         'header' => 'Anagrafiche',
         'classes'  => 'text-bold text-center',
-        'laratrust'  => ['users-create'],
+        'laratrust'  => ['tasks-update'],
     ],
     [
         'text'        => ' Prodotti',
         'url'         => 'products',
         'icon'        => 'fas fa-boxes',
-        'laratrust'  => ['users-create'],
+        'laratrust'  => ['tasks-update'],
     ],
     [
         'text'        => ' Trattamenti',
         'url'         => 'treatments',
         'icon'        => 'fas fa-paint-roller',
-        'laratrust'  => ['users-create'],
+        'laratrust'  => ['tasks-update'],
     ],
     [
         'text'        => ' Magazzini & Ubicazioni',
         'url'         => 'warehouses',
         'icon'        => 'fas fa-warehouse',
-        'laratrust'  => ['users-create'],
+        'laratrust'  => ['tasks-update'],
     ],
     [
         'header' => 'Configurazioni',
         'classes'  => 'text-bold text-center',
-        'laratrust'  => ['users-create'],
+        'laratrust'  => ['tasks-update'],
     ],
     [
         'text'        => ' Sessione Inventario',
         'url'         => 'config/inventory/sesions',
         'icon'        => 'fas fa-dolly-flatbed',
-        'laratrust'  => ['users-create'],
+        'laratrust'  => ['tasks-update'],
     ],
 
 ];
