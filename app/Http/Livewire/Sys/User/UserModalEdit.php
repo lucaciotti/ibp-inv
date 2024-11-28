@@ -101,7 +101,7 @@ class UserModalEdit extends Modal
             try{
                 if (App::environment(['local', 'staging'])) {
                     // Mail::to('ibpoms@lucaciotti.space')->bcc(['luca.ciotti@gmail.com'])->queue($mail);
-                    Mail::to('ibpwms@lucaciotti.space')->cc(['luca.ciotti@gmail.com'])->send(new InviteUser($token, $this->user->id));
+                    Mail::to('ibpoms@lucaciotti.space')->cc(['luca.ciotti@gmail.com'])->send(new InviteUser($token, $this->user->id));
                 } else {
                     // Mail::to($this->user->email)->bcc(['luca.ciotti@gmail.com'])->queue($mail);
                     Mail::to($this->user->email)->cc(['luca.ciotti@gmail.com'])->send(new InviteUser($token, $this->user->id));

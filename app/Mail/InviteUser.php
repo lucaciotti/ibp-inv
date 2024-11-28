@@ -34,9 +34,9 @@ class InviteUser extends Mailable
     }
 
     public function build() {
-        $from = 'ibpwms@lucaciotti.space';
-        return $this->from($from, 'ibp - Wms')
-            ->subject('Credenziali Account ibp-Wms')
+        $from = 'ibpoms@lucaciotti.space';
+        return $this->from($from, 'IBP-Inv')
+            ->subject('Credenziali Account IBP-inv')
             ->markdown('sys._emails.invite');
     }
     /**
