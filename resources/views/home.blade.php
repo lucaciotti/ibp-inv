@@ -91,26 +91,28 @@
             </div>
             
         </div>
-        @endif
+        @else
 
-        @if(Auth::user()->hasPermission('tasks-read'))
-        <div class="row ">
-            <div class="col-lg-12 col-12 ml-auto">
-                <!-- small box -->
-                <div class="small-box bg-success">
-                    <div class="inner">
-                        <h3>Misurazioni</h3>
-                        <p>&nbsp;</p>
+            @if(Auth::user()->hasPermission('tasks-read'))
+            <div class="row ">
+                <div class="col-lg-12 col-12 ml-auto">
+                    <!-- small box -->
+                    <div class="small-box bg-success">
+                        <div class="inner">
+                            <h3>Misurazioni</h3>
+                            <p>&nbsp;</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-barcode"></i>
+                        </div>
+                        <a href="{{ route('inventory_measurements_simple') }}" class="small-box-footer">Visualizza <i
+                                class="fas fa-arrow-circle-right"></i></a>
                     </div>
-                    <div class="icon">
-                        <i class="fa fa-barcode"></i>
-                    </div>
-                    <a href="{{ route('inventory_measurements_simple') }}" class="small-box-footer">Visualizza <i
-                            class="fas fa-arrow-circle-right"></i></a>
                 </div>
+            
             </div>
-        
-        </div>
+            @endif
+            
         @endif
         
         <div class="row ">
