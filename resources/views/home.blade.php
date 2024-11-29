@@ -58,7 +58,8 @@
         @endforeach --}}
         
         {{-- <hr> --}}
-        @if(Auth::user()->hasRole('tasks-update'))
+        
+        @if(Auth::user()->hasPermission('tasks-update'))
         <div class="row ">
             <div class="col-lg-6 col-12 ml-auto">
                 <!-- small box -->
@@ -92,7 +93,7 @@
         </div>
         @endif
 
-        @if(Auth::user()->hasRole('tasks-read'))
+        @if(Auth::user()->hasPermission('tasks-read'))
         <div class="row ">
             <div class="col-lg-12 col-12 ml-auto">
                 <!-- small box -->
