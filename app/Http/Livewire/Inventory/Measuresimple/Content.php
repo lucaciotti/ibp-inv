@@ -228,10 +228,10 @@ class Content extends DynamicContent
 
     public function save(){
         $validatedData = $this->validate();
-        $errors = $this->getErrorBag();
-        dd($errors);
-        // With this error bag instance, you can do things like this:
-        $errors->add('some-key', 'Some message');
+        // $errors = $this->getErrorBag();
+        // dd($errors);
+        // // With this error bag instance, you can do things like this:
+        // $errors->add('some-key', 'Some message');
         InventorySimple::create($validatedData);
         $this->reset();
     }
