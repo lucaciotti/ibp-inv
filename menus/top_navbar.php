@@ -3,7 +3,7 @@
 $topNavbar = [
          // Navbar items:
         [
-            'text'        => ' APP Gestione Pianificazioni',
+            'text'        => ' APP OMS',
             'url'         => 'https://ibpoms.lucaciotti.space/',
             'icon'        => 'fas fa-list',
             'topnav' => true,
