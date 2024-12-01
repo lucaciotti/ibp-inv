@@ -32,6 +32,8 @@ class Content extends DynamicContent
     public $isToogleSearch = false;
     public $search = '';
     public $listProds = [];
+    public $listTreats = [];
+    public $listUbis = [];
     
     // public $invSessionTicket;
     // public $invSessionWarehouse;
@@ -45,7 +47,7 @@ class Content extends DynamicContent
     // public $inventory_ticket_id;
     // public $ticket;
     // public $warehouse_id;
-    // public $ubic_id;
+    public $ubic_id;
     
     public $product_id;
     public $treatment_id;
@@ -61,6 +63,7 @@ class Content extends DynamicContent
                 'product_id' => ['required', 'numeric'],
                 'treatment_id' => ['required', 'numeric'],
                 'ubication' => ['required', 'string'],
+                'ubic_id' => ['required', 'numeric'],
                 'qty' => ['required', 'numeric'],
                 'inventory_session_id' => ['required', 'numeric'],
             ];
@@ -69,6 +72,7 @@ class Content extends DynamicContent
             [
                 'product_id' => ['required', 'numeric'],
                 'ubication' => ['required', 'string'],
+                'ubic_id' => ['required', 'numeric'],
                 'qty' => ['required', 'numeric'],
                 'inventory_session_id' => ['required', 'numeric'],
             ];
@@ -80,6 +84,7 @@ class Content extends DynamicContent
         return [
             'treatment_id.required' => 'Valore Trattamento richiesto',
             'ubication.required' => 'Valore Ubicazione richiesto.',
+            'ubic_id.required' => 'Valore Ubicazione richiesto.',
         ];
     }
 
@@ -124,28 +129,57 @@ class Content extends DynamicContent
     
     public function updatedCodUbi()
     {
-        $records = Ubication::where('code', $this->codUbi)->get();
-        if (!$records || $records->count() != 1) {
+        if (strlen($this->codUbi) > 2) {
+            $this->listUbis = Ubication::where('code', 'like', $this->codUbi . '%')
+                ->orWhere('description', 'like', '%' . $this->codUbi . '%')
+                ->get()->toArray();
+        } else {
+            $this->reset(['listUbis']);
+        }
+    }
+
+    public function selectedUbi($code){
+        $record = Ubication::where('code', $code)->first();
+        if (!$record) {
             $this->addError('ubication', 'L\'Ubicazione NON è valida!');
             return;
-        } else {
-            $ubirecord = $records->first();
         }
 
-        $this->ubication = $ubirecord->code;
+        $this->ubic_id = $record->id;
+        $this->ubication = $record->code;
+        $this->codUbi = $record->code;
+    }
+
+    public function clearUbi()
+    {
+        $this->reset(['ubic_id', 'ubication', 'codUbi', 'listUbis']);
     }
 
     public function updatedCodTreatment()
     {
-        $records = Treatment::where('code', $this->codTreatment)->get();
-        if (!$records || $records->count() != 1) {
+        if (strlen($this->codTreatment) > 2) {
+            $this->listTreats = Treatment::where('code', 'like', $this->codTreatment . '%')
+                ->orWhere('description', 'like', '%' . $this->codTreatment . '%')
+                ->get()->toArray();
+        } else {
+            $this->reset(['listTreats']);
+        }
+    }
+
+    public function selectedTreat($code)
+    {
+        $record = Treatment::where('code', $code)->first();
+        if (!$record) {
             $this->addError('treatment_id', 'Il Trattamento NON è valida!');
             return;
-        } else {
-            $record = $records->first();
         }
-        
         $this->treatment_id = $record->id;
+        $this->codTreatment = $code;
+        $this->reset(['listTreats']);
+    }
+
+    public function clearTreat(){
+        $this->reset(['treatment_id', 'codTreatment', 'listTreats']);
     }
 
     public function toogleSearch()

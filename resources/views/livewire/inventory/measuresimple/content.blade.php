@@ -59,17 +59,99 @@
                     
                     <x-adminlte-input name="descrProd" label="Descrizione Prodotto:" placeholder="Descrizione Prodotto"
                         error-key="descrProd" wire:model.lazy="descrProd" disabled />
-                    
+
                     @if ($hasTreatment)
-                    <hr>
-                    <x-adminlte-input name="codTreatment" label="Codice Trattamento:" placeholder="Codice Trattamento" error-key="treatment_id"
-                        wire:model.lazy="codTreatment" />
+                        <hr>
+                        @if (empty($treatment_id))
+                            <x-adminlte-input name="codTreatment" label="Codice Trattamento:" placeholder="Codice Trattamento" error-key="treatment_id"
+                                wire:model="codTreatment" />
+                            @if(!empty($listTreats))
+                            <div id='dropdownList' class="navbar-search-results myDropdownDiv">
+                                <div class="list-group myDropdownList">
+                                    <a href="#" class="list-group-item list-group-item-action" wire:loading wire:target="codTreatment">
+                                        <div class="d-flex align-items-center text-secondary">
+                                            <strong>Caricamento...</strong>
+                                            <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
+                                        </div>
+                                    </a>
+                                    @if(!empty($listTreats))
+                                    @foreach($listTreats as $i => $treat)
+                            
+                                    <a class="list-group-item list-group-item-action" wire:click="selectedTreat('{{ $treat['code'] }}')">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <p class="mb-1"><b>{{ $treat['code'] }}</b><br><small>{{ $treat['description'] }}</small></p>
+                                        </div>
+                                    </a>
+                            
+                                    @endforeach
+                                    @else
+                                    <a class="list-group-item">
+                                        <div class="search-title">Nessun risultato...
+                                        </div>
+                                        <div class="search-path"></div>
+                                    </a>
+                                    @endif
+                                </div>
+                            </div>
+                            @endif    
+                        @else
+                            <x-adminlte-input name="codTreatment" label="Codice Trattamento:" placeholder="Codice Trattamento"
+                            error-key="treatment_id" wire:model="codTreatment" disabled>
+                            <x-slot name="appendSlot">
+                                <button class="btn btn-sm btn-outline-danger" type="button" wire:click="clearTreat" data-toggle="tooltip"
+                                    data-placement="bottom" title="Reset Trattamento">
+                                    <i class="fas fa-fw fa-times"></i>
+                                </button>
+                            </x-slot>
+                            </x-adminlte-input>
+                        @endif                
                     @endif
+
                     <hr>
-                    <x-adminlte-input name="codUbi" label="Codice Ubicazione:" placeholder="Codice Ubicazione" error-key="ubication" wire:model.lazy="codUbi" />
-                    
+                    @if (empty($ubic_id))
+                        <x-adminlte-input name="codUbi" label="Codice Ubicazione:" placeholder="Codice Ubicazione" error-key="ubic_id" wire:model="codUbi" />
+                        @if(!empty($listUbis))
+                        <div id='dropdownList' class="navbar-search-results myDropdownDiv">
+                            <div class="list-group myDropdownList">
+                                <a href="#" class="list-group-item list-group-item-action" wire:loading wire:target="codUbi">
+                                    <div class="d-flex align-items-center text-secondary">
+                                        <strong>Caricamento...</strong>
+                                        <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
+                                    </div>
+                                </a>
+                                @if(!empty($listUbis))
+                                @foreach($listUbis as $i => $ubi)
+                        
+                                <a class="list-group-item list-group-item-action" wire:click="selectedUbi('{{ $ubi['code'] }}')">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <p class="mb-1"><b>{{ $ubi['code'] }}</b><br><small>{{ $ubi['description'] }}</small></p>
+                                    </div>
+                                </a>
+                        
+                                @endforeach
+                                @else
+                                <a class="list-group-item">
+                                    <div class="search-title">Nessun risultato...
+                                    </div>
+                                    <div class="search-path"></div>
+                                </a>
+                                @endif
+                            </div>
+                        </div>
+                        @endif
+                    @else
+                        <x-adminlte-input name="codUbi" label="Codice Ubicazione:" placeholder="Codice Ubicazione" error-key="ubic_id" wire:model="codUbi" disabled>
+                        <x-slot name="appendSlot">
+                            <button class="btn btn-sm btn-outline-danger" type="button" wire:click="clearUbi" data-toggle="tooltip"
+                                data-placement="bottom" title="Reset Trattamento">
+                                <i class="fas fa-fw fa-times"></i>
+                            </button>
+                        </x-slot>
+                        </x-adminlte-input>
+                    @endif
+
                     <hr>
-                    <x-adminlte-input name="qty" label="Qta Inv:" placeholder="qty" type="number" error-key="qty" wire:model.lazy="qty" inputmode="numeric"
+                    <x-adminlte-input name="qty" label="Qta Inv:" placeholder="Qta" type="number" error-key="qty" wire:model.lazy="qty" inputmode="numeric"
                         class="text-left" min=1 >
                         <x-slot name="prependSlot">
                             <div class="input-group-text bg-dark">
@@ -152,3 +234,11 @@
     }
 </style>
 @endpush
+
+
+{{-- <x-adminlte-select2 name="sel2Basic">
+    <option>Option 1</option>
+    <option>Option 2</option>
+    <option selected>Option 3</option>
+</x-adminlte-select2> --}}
+{{-- @section('plugins.Select2', true) --}}
