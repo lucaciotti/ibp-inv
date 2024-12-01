@@ -7,6 +7,9 @@ use Rappasoft\LaravelLivewireTables\Views\Column;
 use Illuminate\Database\Eloquent\Builder;
 use App\Models\InventoryMeasurement;
 use App\Models\InventorySimple;
+use App\Models\Warehouse;
+use Rappasoft\LaravelLivewireTables\Views\Filters\SelectFilter;
+use Rappasoft\LaravelLivewireTables\Views\Filters\TextFilter;
 use Session;
 
 class MeasureSimpleTable extends DataTableComponent
@@ -78,7 +81,10 @@ class MeasureSimpleTable extends DataTableComponent
             Column::make("Trattamento", "treatment.code")
                 ->sortable()
                 ->searchable(),
-            Column::make("Ubicazione", "ubication")
+            Column::make("Ubicazione", "ubication.code")
+                ->sortable()
+                ->searchable(),
+            Column::make("Magazzino", "warehouse.code")
                 ->sortable()
                 ->searchable(),
             Column::make("U.M.", "product.unit")
@@ -103,6 +109,36 @@ class MeasureSimpleTable extends DataTableComponent
     public function getAuditCreatedUser($row, $column)
     {
         return $row->audits()->first()->user->name;
+    }
+
+    public function filters(): array
+    {
+        $magList = Warehouse::get()->map(function ($item) {
+            return [$item['id'] => $item['description']];
+        })->all();
+        array_unshift($magList, ['' => 'Tutti']);
+
+
+        return [
+            TextFilter::make('Ubicazione', 'ubication')
+            ->config([
+                'placeholder' => 'Cerca Ubicazione',
+            ])
+            ->filter(function (Builder $builder, string $value) {
+                $builder->where('ubication', 'like', '%' . $value . '%');
+            }),
+
+            SelectFilter::make('Magazzino', 'warehouse_id')
+            ->options($magList)
+            ->filter(function (Builder $builder, string $value) {
+                $valueFilter = ($value != '') ? intval($value) : 0;
+                if ($valueFilter>0){
+                $builder->where('warehouse_id', $valueFilter);
+                } else {
+                    $builder->where('warehouse_id', '>', $valueFilter);
+                }
+            }),
+        ];
     }
 
     public function bulkActions(): array
