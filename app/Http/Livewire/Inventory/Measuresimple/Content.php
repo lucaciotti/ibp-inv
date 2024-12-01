@@ -46,7 +46,7 @@ class Content extends DynamicContent
     // public $inventory_session_warehouse_id;
     // public $inventory_ticket_id;
     // public $ticket;
-    // public $warehouse_id;
+    public $warehouse_id;
     public $ubic_id;
     
     public $product_id;
@@ -64,6 +64,7 @@ class Content extends DynamicContent
                 'treatment_id' => ['required', 'numeric'],
                 'ubication' => ['required', 'string'],
                 'ubic_id' => ['required', 'numeric'],
+                'warehouse_id' => ['required', 'numeric'],
                 'qty' => ['required', 'numeric'],
                 'inventory_session_id' => ['required', 'numeric'],
             ];
@@ -73,6 +74,7 @@ class Content extends DynamicContent
                 'product_id' => ['required', 'numeric'],
                 'ubication' => ['required', 'string'],
                 'ubic_id' => ['required', 'numeric'],
+                'warehouse_id' => ['required', 'numeric'],
                 'qty' => ['required', 'numeric'],
                 'inventory_session_id' => ['required', 'numeric'],
             ];
@@ -146,13 +148,14 @@ class Content extends DynamicContent
         }
 
         $this->ubic_id = $record->id;
+        $this->warehouse_id = $record->warehouse_id;
         $this->ubication = $record->code;
         $this->codUbi = $record->code;
     }
 
     public function clearUbi()
     {
-        $this->reset(['ubic_id', 'ubication', 'codUbi', 'listUbis']);
+        $this->reset(['ubic_id', 'ubication', 'codUbi', 'listUbis', 'warehouse_id']);
     }
 
     public function updatedCodTreatment()
