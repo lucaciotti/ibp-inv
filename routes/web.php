@@ -42,6 +42,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/inventory/measurements_simple', [App\Http\Controllers\InventoryController::class, 'invMeasurementsSimple'])->name('inventory_measurements_simple');
     Route::get('/inventory/stats_simple/{id?}', [App\Http\Controllers\InventoryController::class, 'invStatsSimple'])->name('inventory_stats_simple');
     Route::get('/inventory/exportxls_simple', [App\Http\Controllers\InventoryController::class, 'exportXlsSimple'])->name('exportxls_simple');
+    Route::get('/inventory/exportxls_warehouse_simple', [App\Http\Controllers\InventoryController::class, 'exportXlsWarehouseSimple'])->name('exportxls_warehouse_simple');
     Route::get('/inventory/exportcsv_simple', [App\Http\Controllers\InventoryController::class, 'exportCsvNoUbiSimple'])->name('exportcsv_simple');
 });
 

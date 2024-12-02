@@ -186,7 +186,7 @@ class Content extends DynamicContent
 
         $this->ubic_id = $record->id;
         $this->warehouse_id = $record->warehouse_id;
-        $this->ubication = $record->code;
+        $this->ubication = $record->cod_alt;
         $this->codUbi = $record->code;
     }
 

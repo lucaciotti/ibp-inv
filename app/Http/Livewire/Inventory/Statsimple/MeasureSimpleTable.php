@@ -118,7 +118,6 @@ class MeasureSimpleTable extends DataTableComponent
         })->all();
         array_unshift($magList, ['' => 'Tutti']);
 
-
         return [
             TextFilter::make('Ubicazione', 'ubication')
             ->config([
@@ -129,13 +128,13 @@ class MeasureSimpleTable extends DataTableComponent
             }),
 
             SelectFilter::make('Magazzino', 'warehouse_id')
-            ->options($magList)
+            ->options(array_merge(...$magList))
             ->filter(function (Builder $builder, string $value) {
                 $valueFilter = ($value != '') ? intval($value) : 0;
                 if ($valueFilter>0){
-                $builder->where('warehouse_id', $valueFilter);
+                $builder->where('inventory_simples.warehouse_id', $valueFilter);
                 } else {
-                    $builder->where('warehouse_id', '>', $valueFilter);
+                    $builder->where('inventory_simples.warehouse_id', '>', $valueFilter);
                 }
             }),
         ];
@@ -146,8 +145,9 @@ class MeasureSimpleTable extends DataTableComponent
         $actions = [
             'deleteRows' => 'Cancella Sparata',
             'hr1' => '---------------------------',
-            'xlsExport' => 'Export Xls',
-            'csvExport' => 'Export CSV',
+            'xlsExport' => 'Export Xls - Totale x Ubicazione',
+            'xlsExportWarehous' => 'Export Xls - Totale x Magazzino',
+            'csvExport' => 'Export CSV - Totale',
         ];
 
         return $actions;
@@ -164,6 +164,14 @@ class MeasureSimpleTable extends DataTableComponent
     {
         Session::put('invsimple.xlsExport.inv_ids', $this->getSelected());
         return redirect()->route('exportxls_simple');
+        // $this->emit('modal.open', 'xls-export.xls-export-modal', ['tasks_ids' => $this->getSelected(), 'type_id' => $this->type_id, 'configs' => $this->buildTasksConfig()]);
+        // dd($this->getSelected());
+    }
+
+    public function xlsExportWarehous()
+    {
+        Session::put('invsimple.xlsExport.inv_ids', $this->getSelected());
+        return redirect()->route('exportxls_warehouse_simple');
         // $this->emit('modal.open', 'xls-export.xls-export-modal', ['tasks_ids' => $this->getSelected(), 'type_id' => $this->type_id, 'configs' => $this->buildTasksConfig()]);
         // dd($this->getSelected());
     }
