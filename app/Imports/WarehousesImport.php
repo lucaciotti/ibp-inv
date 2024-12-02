@@ -72,6 +72,7 @@ class WarehousesImport implements ToCollection, WithStartRow, SkipsEmptyRows, Wi
                 } else {
                     $ubi->description = $descrUbi;
                     $ubi->cod_alt = str_replace('-', '', $codUbi);
+                    $ubi->save();
                 }
             }
         }
