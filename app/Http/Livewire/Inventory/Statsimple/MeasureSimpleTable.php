@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Models\InventoryMeasurement;
 use App\Models\InventorySimple;
 use App\Models\Warehouse;
+use Arr;
 use Rappasoft\LaravelLivewireTables\Views\Filters\SelectFilter;
 use Rappasoft\LaravelLivewireTables\Views\Filters\TextFilter;
 use Session;
@@ -113,11 +114,12 @@ class MeasureSimpleTable extends DataTableComponent
 
     public function filters(): array
     {
-        $magList = Warehouse::get()->map(function ($item) {
-            return [$item['id'] => $item['description']];
-        })->all();
-        array_unshift($magList, ['' => 'Tutti']);
-
+        $magCollect = Warehouse::get()->toArray();
+        $magCollectPluck = Arr::pluck($magCollect, 'description', 'id');
+        $magList = ['' => 'Tutti'];
+        foreach ($magCollectPluck as $key => $value) {
+            $magList[$key] = $value;
+        }
         return [
             TextFilter::make('Ubicazione', 'ubication')
             ->config([
@@ -128,7 +130,7 @@ class MeasureSimpleTable extends DataTableComponent
             }),
 
             SelectFilter::make('Magazzino', 'warehouse_id')
-            ->options(array_merge(...$magList))
+            ->options($magList)
             ->filter(function (Builder $builder, string $value) {
                 $valueFilter = ($value != '') ? intval($value) : 0;
                 if ($valueFilter>0){
