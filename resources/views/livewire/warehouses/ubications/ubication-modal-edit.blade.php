@@ -12,6 +12,9 @@
         <x-adminlte-input name="description" label="Descrizione" placeholder="Descrizione" error-key="description"
             wire:model.lazy="description" />
 
+        <x-adminlte-input name="cod_alt" label="Cod. Alternativo" placeholder="Cod. Alternativo" error-key="cod_alt"
+            wire:model.lazy="cod_alt" />
+
     </div>
 
     <x-slot name="buttons">

@@ -19,11 +19,13 @@ class UbicationModalEdit extends Modal
     public $mode;
 
     public $code;
+    public $cod_alt;
     public $description;
 
     protected $rules = [
         'code' => 'required|unique:ubications',
         'description' => 'required',
+        'cod_alt' => 'required',
     ];
 
     public function mount($id = null, $warehouse_id)
@@ -37,6 +39,7 @@ class UbicationModalEdit extends Modal
             $this->title = 'Modifica Ubicazione [' . $id . ']';
             $this->ubic = Ubication::find($id);
             $this->code = $this->ubic->code;
+            $this->cod_alt = $this->ubic->cod_alt;
             $this->description = $this->ubic->description;
         }
     }

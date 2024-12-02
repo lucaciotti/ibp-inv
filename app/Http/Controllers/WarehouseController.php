@@ -15,6 +15,7 @@ class WarehouseController extends Controller
     public function indexUbic(Request $req, $id)
     {
         $warehouse = Warehouse::find($id);
+        $req->session()->put('warehouse.id', $warehouse->id);
 
         return view('ibp.warehouses.ubications', ['warehouse' => $warehouse]);
     }

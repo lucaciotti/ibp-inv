@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Laratrust;
 use Rappasoft\LaravelLivewireTables\Views\Columns\ButtonGroupColumn;
 use Rappasoft\LaravelLivewireTables\Views\Columns\LinkColumn;
+use Session;
 
 class UbicationTable extends DataTableComponent
 {
@@ -22,6 +23,7 @@ class UbicationTable extends DataTableComponent
 
     public function builder(): Builder
     {
+        $this->warehouse_id = Session::get('warehouse.id');
         return Ubication::query()
             ->where('warehouse_id', $this->warehouse_id);
     }
@@ -76,6 +78,8 @@ class UbicationTable extends DataTableComponent
             Column::make("Codice", "code")
                 ->sortable(),
             Column::make("Descrizione", "description")
+                ->sortable(),
+            Column::make("Cod.Alternativo", "cod_alt")
                 ->sortable(),
             Column::make("Magazzino", "warehouse.code")
                 ->sortable(),
