@@ -33,6 +33,8 @@ class Content extends DynamicContent
     public $search = '';
     public $listProds = [];
     public $listTreats = [];
+    public $isToogleSearchUbi = false;
+    public $searchUbi = '';
     public $listUbis = [];
     
     // public $invSessionTicket;
@@ -92,11 +94,17 @@ class Content extends DynamicContent
 
     public function mount()
     {
+        $this->initInvSession();
+    }
+
+    public function initInvSession()
+    {
         $invSession = InventorySession::where('date_start', '<', Carbon::now())->where('date_end', '>', Carbon::now())->where('active', true)->first();
         if (!$invSession) {
             $invSession = InventorySession::where('date_start', '<', Carbon::now())->where('active', true)->first();
         }
         $this->inventory_session_id = $invSession->id;
+        $this->emit('initfocus');
     }
     
     public function render()
@@ -128,15 +136,69 @@ class Content extends DynamicContent
         $this->umProd = $this->product->unit;
         $this->checkHasTreatment();
     }
+
+    public function updatedSearch()
+    {
+        if (strlen($this->search) < 3) {
+            $this->reset(['product']);
+            return;
+        }
+        $this->searchListArt();
+    }
+
+    public function searchListArt()
+    {
+        $this->listProds = Product::where('code', 'like', $this->search . '%')
+            ->orWhere('description', 'like', '%' . $this->search . '%')
+            ->orWhere('barcode', 'like', '%' . $this->search . '%')
+            ->get()->toArray();
+    }
+
+    public function selectedProd($code)
+    {
+        $this->product = Product::where('code', $code)->first();
+        if (!$this->product) {
+            $this->addError('codProd', 'Il Prodotto NON è valido!');
+            return;
+        }
+        $this->product_id = $this->product->id;
+        $this->codProd = $this->product->code;
+        $this->codClasse = $this->product->classe;
+        $this->descrProd = $this->product->description;
+        $this->umProd = $this->product->unit;
+        $this->checkHasTreatment();
+    }
+
+    public function checkHasTreatment()
+    {
+        $this->hasTreatment = $this->codClasse == 'PD';
+    }
     
     public function updatedCodUbi()
     {
-        if (strlen($this->codUbi) > 2) {
-            $this->listUbis = Ubication::where('code', 'like', $this->codUbi . '%')
-                ->orWhere('description', 'like', '%' . $this->codUbi . '%')
+        $records = Ubication::where('code', $this->codUbi)->get();
+        if (!$records || $records->count()!=1) {
+            $this->addError('ubic_id', 'L\'Ubicazione NON è valida!');
+            return;
+        } else {
+            $record = $records->first();
+        }
+
+        $this->ubic_id = $record->id;
+        $this->warehouse_id = $record->warehouse_id;
+        $this->ubication = $record->code;
+        $this->codUbi = $record->code;
+    }
+
+    public function updatedSearchUbi()
+    {
+        if (strlen($this->searchUbi) > 1) {
+            $this->listUbis = Ubication::where('code', 'like', $this->searchUbi . '%')
+                ->orWhere('description', 'like', '%' . $this->searchUbi . '%')
+                ->orWhere('cod_alt', 'like', '%' . $this->searchUbi . '%')
                 ->get()->toArray();
         } else {
-            $this->reset(['listUbis']);
+            $this->reset(['listUbis', 'codUbi']);
         }
     }
 
@@ -191,39 +253,10 @@ class Content extends DynamicContent
         $this->isToogleSearch = !$this->isToogleSearch;
     }
 
-    public function updatedSearch()
+    public function toogleSearchUbi()
     {
-        if (strlen($this->search) < 3) {
-            $this->reset(['product']);
-            return;
-        }
-        $this->searchListArt();
-    }
-
-    public function searchListArt()
-    {
-        $this->listProds = Product::where('code', 'like', $this->search . '%')
-            ->orWhere('description', 'like', '%' . $this->search . '%')
-            ->orWhere('barcode', 'like', '%' . $this->search . '%')
-            ->get()->toArray();
-    }
-
-    public function selectedProd($code){
-        $this->product = Product::where('code', $code)->first();
-        if (!$this->product) {
-            $this->addError('codProd', 'Il Prodotto NON è valido!');
-            return;
-        }
-        $this->product_id = $this->product->id;
-        $this->codProd = $this->product->code;
-        $this->codClasse = $this->product->classe;
-        $this->descrProd = $this->product->description;
-        $this->umProd = $this->product->unit;
-        $this->checkHasTreatment();
-    }
-
-    public function checkHasTreatment(){
-        $this->hasTreatment = $this->codClasse=='PD';
+        $this->reset(['ubic_id', 'ubication', 'codUbi', 'listUbis', 'warehouse_id', 'searchUbi']);
+        $this->isToogleSearchUbi = !$this->isToogleSearchUbi;
     }
 
     public function save(){
@@ -233,13 +266,14 @@ class Content extends DynamicContent
         // // With this error bag instance, you can do things like this:
         // $errors->add('some-key', 'Some message');
         InventorySimple::create($validatedData);
-        $this->reset();
+        $this->resetInv();
     }
 
     public function resetInv(){
         $this->reset();
         $this->resetErrorBag();
         $this->resetValidation();
+        $this->initInvSession();
     }
 
 }

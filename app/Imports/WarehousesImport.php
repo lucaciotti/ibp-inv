@@ -49,12 +49,30 @@ class WarehousesImport implements ToCollection, WithStartRow, SkipsEmptyRows, Wi
                     'description' => $descrMag
                 ]);
             }
-            if (!Ubication::where('code', $codUbi)->exists()) {
+            $ubi = Ubication::where('code', $codUbi)->first();
+            if (!$ubi) {
                 Ubication::create([
                     'code' => $codUbi,
                     'description' => $descrUbi,
-                    'warehouse_id' => $warehouse->id
+                    'warehouse_id' => $warehouse->id,
+                    'cod_alt' => str_replace('-', '', $codUbi)
                 ]);
+            } else {
+                if($ubi->warehouse_id != $warehouse->id) {
+                    $codUbi = $codUbi.'_'.$codMag;
+                    $ubi2 = Ubication::where('code', $codUbi)->first();
+                    if (!$ubi2) {
+                        Ubication::create([
+                            'code' => $codUbi,
+                            'description' => $descrUbi,
+                            'warehouse_id' => $warehouse->id,
+                            'cod_alt' => str_replace('-', '', $codUbi)
+                        ]);
+                    }
+                } else {
+                    $ubi->description = $descrUbi;
+                    $ubi->cod_alt = str_replace('-', '', $codUbi);
+                }
             }
         }
     }

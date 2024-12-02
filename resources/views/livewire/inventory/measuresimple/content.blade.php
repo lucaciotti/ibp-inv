@@ -7,7 +7,7 @@
                 
                 @if (!$product)
                     @if(!$isToogleSearch)
-                        <x-adminlte-input name="codProd" label="Codice Prodotto:" placeholder="Codice Prodotto" error-key="codProd" wire:model.lazy="codProd">
+                        <x-adminlte-input name="codProd" label="Codice Prodotto:" placeholder="Codice Prodotto" error-key="codProd" wire:model.lazy="codProd" id='codProd'>
                             <x-slot name="appendSlot">
                                 <button class="btn btn-sm btn-outline-primary" type="button" wire:click="toogleSearch" data-toggle="tooltip"
                                     data-placement="bottom" title="Ricerca Libera">
@@ -109,35 +109,53 @@
 
                     <hr>
                     @if (empty($ubic_id))
-                        <x-adminlte-input name="codUbi" label="Codice Ubicazione:" placeholder="Codice Ubicazione" error-key="ubic_id" wire:model="codUbi" />
-                        @if(!empty($listUbis))
-                        <div id='dropdownList' class="navbar-search-results myDropdownDiv">
-                            <div class="list-group myDropdownList">
-                                <a href="#" class="list-group-item list-group-item-action" wire:loading wire:target="codUbi">
-                                    <div class="d-flex align-items-center text-secondary">
-                                        <strong>Caricamento...</strong>
-                                        <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
-                                    </div>
-                                </a>
-                                @if(!empty($listUbis))
-                                @foreach($listUbis as $i => $ubi)
-                        
-                                <a class="list-group-item list-group-item-action" wire:click="selectedUbi('{{ $ubi['code'] }}')">
-                                    <div class="d-flex w-100 justify-content-between">
-                                        <p class="mb-1"><b>{{ $ubi['code'] }}</b><br><small>{{ $ubi['description'] }}</small></p>
-                                    </div>
-                                </a>
-                        
-                                @endforeach
-                                @else
-                                <a class="list-group-item">
-                                    <div class="search-title">Nessun risultato...
-                                    </div>
-                                    <div class="search-path"></div>
-                                </a>
-                                @endif
+                        @if(!$isToogleSearchUbi)
+                            <x-adminlte-input name="codUbi" label="Codice Ubicazione:" placeholder="Codice Ubicazione" error-key="ubic_id" wire:model.lazy="codUbi">
+                                <x-slot name="appendSlot">
+                                    <button class="btn btn-sm btn-outline-primary" type="button" wire:click="toogleSearchUbi" data-toggle="tooltip"
+                                        data-placement="bottom" title="Ricerca Ubicazione">
+                                        <i class="fas fa-fw fa-search"></i>
+                                    </button>
+                                </x-slot>
+                            </x-adminlte-input>
+                        @else
+                            <x-adminlte-input name="searchUbi" label="Ricerca Ubicazione:" placeholder="Ricerca Ubicazione" error-key="ubic_id" wire:model="searchUbi">
+                                <x-slot name="appendSlot">
+                                    <button class="btn btn-sm btn-outline-primary" type="button" wire:click="toogleSearchUbi" data-toggle="tooltip"
+                                        data-placement="bottom" title="Codice Ubicazione">
+                                        <i class="fas fa-fw fa-barcode"></i>
+                                    </button>
+                                </x-slot>
+                            </x-adminlte-input>
+                            @if(!empty($listUbis))
+                            <div id='dropdownList' class="navbar-search-results myDropdownDiv">
+                                <div class="list-group myDropdownList">
+                                    <a href="#" class="list-group-item list-group-item-action" wire:loading wire:target="codUbi">
+                                        <div class="d-flex align-items-center text-secondary">
+                                            <strong>Caricamento...</strong>
+                                            <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
+                                        </div>
+                                    </a>
+                                    @if(!empty($listUbis))
+                                    @foreach($listUbis as $i => $ubi)
+                            
+                                    <a class="list-group-item list-group-item-action" wire:click="selectedUbi('{{ $ubi['code'] }}')">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <p class="mb-1"><b>{{ $ubi['code'] }}</b><br><small>{{ $ubi['description'] }}</small></p>
+                                        </div>
+                                    </a>
+                            
+                                    @endforeach
+                                    @else
+                                    <a class="list-group-item">
+                                        <div class="search-title">Nessun risultato...
+                                        </div>
+                                        <div class="search-path"></div>
+                                    </a>
+                                    @endif
+                                </div>
                             </div>
-                        </div>
+                            @endif
                         @endif
                     @else
                         <x-adminlte-input name="codUbi" label="Codice Ubicazione:" placeholder="Codice Ubicazione" error-key="ubic_id" wire:model="codUbi" disabled>
@@ -215,7 +233,7 @@
 
     @media screen and (max-width: 500px) {
         .myDropdownDiv {
-            width: auto;
+            /* width: auto; */
             margin-left: -15px;
         }
     }

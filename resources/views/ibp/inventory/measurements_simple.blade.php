@@ -32,6 +32,9 @@ Misurazioni Inventariali
 
 @push('js')
 <script src="https://cdn.jsdelivr.net/gh/livewire/sortable@v0.x.x/dist/livewire-sortable.js"></script>
+<script>
+    document.addEventListener('livewire:load', () => { window.livewire.on('initfocus', inputname => { document.getElementById("codProd").focus(); }) }); 
+</script>
 @endpush
 
 @section('plugins.TempusDominusBs4', true)
