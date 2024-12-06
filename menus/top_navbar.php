@@ -2,14 +2,14 @@
 
 $topNavbar = [
          // Navbar items:
-        [
-            'text'        => ' APP OMS',
-            'url'         => 'https://ibpoms.lucaciotti.space/',
-            'icon'        => 'fas fa-list',
-            'topnav' => true,
-            'target'        => '_blank',
-            // 'can'  => ['config-read'],
-        ],
+        // [
+        //     'text'        => ' OMS',
+        //     'url'         => 'https://ibpoms.lucaciotti.space/',
+        //     // 'icon'        => 'fas fa-list',
+        //     'topnav' => true,
+        //     'target'        => '_blank',
+        //     // 'can'  => ['config-read'],
+        // ],
         [
             'type'         => 'navbar-notification',
             'id'           => 'my-notification',
