@@ -243,6 +243,17 @@ class Content extends DynamicContent
         $this->reset(['listTreats']);
     }
 
+    public function noTreatment(){
+        $record = Treatment::where('code', 'GREZZO')->first();
+        if (!$record) {
+            $this->addError('treatment_id', 'Il Trattamento NON è valida!');
+            return;
+        }
+        $this->treatment_id = $record->id;
+        $this->codTreatment = 'GREZZO';
+        $this->reset(['listTreats']);
+    }
+
     public function clearTreat(){
         $this->reset(['treatment_id', 'codTreatment', 'listTreats']);
     }

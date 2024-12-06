@@ -63,8 +63,17 @@
                     @if ($hasTreatment)
                         <hr>
                         @if (empty($treatment_id))
-                            <x-adminlte-input name="codTreatment" label="Codice Trattamento:" placeholder="Codice Trattamento" error-key="treatment_id"
-                                wire:model="codTreatment" />
+                            <x-adminlte-input name="codTreatment" label="Codice Trattamento:" placeholder="Codice Trattamento" error-key="treatment_id" wire:model="codTreatment">
+                                <x-slot name="appendSlot">
+                                    <button class="btn btn-sm btn-outline-primary" type="button" wire:click="noTreatment" data-toggle="tooltip"
+                                        data-placement="bottom" title="Materiale Grezzo">
+                                        <span class="fa-stack fa-1x">
+                                            <i class="fas fa-fw fa-paint-roller fa-stack-1x"></i>
+                                            <i class="fas fa-fw fa-ban fa-stack-2x" style="color:Tomato"></i>
+                                        </span>
+                                    </button>
+                                </x-slot>
+                            </x-adminlte-input>
                             @if(!empty($listTreats))
                             <div id='dropdownList' class="navbar-search-results myDropdownDiv">
                                 <div class="list-group myDropdownList">
