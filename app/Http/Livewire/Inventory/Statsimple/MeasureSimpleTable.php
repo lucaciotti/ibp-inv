@@ -10,6 +10,7 @@ use App\Models\InventorySimple;
 use App\Models\Warehouse;
 use Arr;
 use Auth;
+use Rappasoft\LaravelLivewireTables\Views\Columns\BooleanColumn;
 use Rappasoft\LaravelLivewireTables\Views\Filters\SelectFilter;
 use Rappasoft\LaravelLivewireTables\Views\Filters\TextFilter;
 use Session;
@@ -19,6 +20,11 @@ class MeasureSimpleTable extends DataTableComponent
     protected $model = InventorySimple::class;
 
     public $invSession_id;
+
+    public function mount()
+    {
+        $this->setFilter('active', 'yes');
+    }
 
     public function builder(): Builder
     {
@@ -98,6 +104,8 @@ class MeasureSimpleTable extends DataTableComponent
             Column::make("Qta Inv.", "qty")
                 ->sortable()
                 ->searchable(),
+            BooleanColumn::make('Valido', 'active')
+                ->excludeFromColumnSelect(),
             Column::make("Dt.Modifica", "updated_at")
                 ->format(
                     fn ($value, $row, Column $column) => '<span class="fa fa-history pr-1"></span>' . $value->format('d-m-Y')
@@ -144,6 +152,17 @@ class MeasureSimpleTable extends DataTableComponent
                     $builder->where('inventory_simples.warehouse_id', '>', $valueFilter);
                 }
             }),
+
+            SelectFilter::make('Valido', 'active')
+                ->options([
+                    '' => 'Tutti',
+                    'yes' => 'Si',
+                    'no' => 'No',
+                ])
+                ->filter(function (Builder $builder, string $value) {
+                    $valueFilter = ($value == 'yes') ? true : (($value == 'no') ? false : null);
+                    $builder->where('active', $valueFilter);
+                }),
         ];
     }
 
@@ -166,7 +185,8 @@ class MeasureSimpleTable extends DataTableComponent
     public function deleteRows()
     {
         foreach ($this->getSelected() as $id) {
-            $tasks = InventorySimple::find($id)->update(['qty' => 0]);
+            // $tasks = InventorySimple::find($id)->update(['qty' => 0]);
+            $tasks = InventorySimple::find($id)->update(['active' => false]);
         }
     }
 

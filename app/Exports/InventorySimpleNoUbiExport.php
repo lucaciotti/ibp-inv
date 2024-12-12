@@ -29,28 +29,28 @@ class InventorySimpleNoUbiExport implements FromArray, WithMapping, WithHeadings
     public function array(): array
     {
         $rows = [];
-        $aProducts = [];
-        $aUbi = [];
-        $allRows = InventorySimple::whereIn('id', $this->invIds)->with('product')->get();
+        $allRows = InventorySimple::whereIn('id', $this->invIds)->where('active', true)
+            ->with(['product', 'warehouse', 'treatment'])
+            ->select('product_id', 'treatment_id', 'warehouse_id')
+            ->selectRaw('SUM(qty) as totqta')
+            ->groupBy('product_id', 'treatment_id', 'warehouse_id')
+            ->get();
+        $allRows = $allRows->sortBy(['product.code', 'treatment.code']);
         foreach ($allRows as $row) {
-            $idProd = $row->product_id;
             $codProd = $row->product->code;
             $descr = $row->product->description;
             $um = $row->product->unit;
-            if(!in_array($idProd, $aProducts)){
-                $totQta = InventorySimple::whereIn('id', $this->invIds)->where('product_id', $idProd)->sum('qty');
-                if($totQta>0){
-                    array_push($rows, [$codProd, $descr, $um, $totQta]);
-                    array_push($aProducts, $idProd);
-                }
-            }
+            $treat = $row->treatment->code;
+            $mag = $row->warehouse->description;
+            $totqta = $row->totqta;
+            array_push($rows, [$codProd, $descr, $treat, $mag, $um, $totqta]);
         }
         return $rows;
     }
 
     public function headings(): array
     {
-        $head = ['Cod.Prodotto', 'Descr.Prodotto', 'UM', 'Qta'];
+        $head = ['Cod.Prodotto', 'Descr.Prodotto', 'Trattamento', 'Magazzino', 'UM', 'Qta'];
         return $head;
     }
 
@@ -80,7 +80,7 @@ class InventorySimpleNoUbiExport implements FromArray, WithMapping, WithHeadings
 
     public function map($row): array
     {
-        $body = [strval($row[0]), $row[1], $row[2], $row[3]];
+        $body = [strval($row[0]), $row[1], $row[2] ?? '', $row[3] ?? '', $row[4] ?? '', $row[5]];
         return $body;
     }
 

@@ -28,41 +28,28 @@ class InventorySimpleWarehouseExport implements FromArray, WithMapping, WithHead
     public function array(): array
     {
         $rows = [];
-        $aProducts = [];
-        $aRef = [];
-        $allRows = InventorySimple::whereIn('id', $this->invIds)->with('product')->get();
+        $allRows = InventorySimple::whereIn('id', $this->invIds)->where('active', true)
+            ->with(['product', 'warehouse', 'treatment'])
+            ->select('product_id', 'treatment_id', 'warehouse_id')
+            ->selectRaw('SUM(qty) as totqta')
+            ->groupBy('product_id', 'treatment_id', 'warehouse_id')
+            ->get();
+        $allRows = $allRows->sortBy(['product.code', 'treatment.code']);
         foreach ($allRows as $row) {
-            $idProd = $row->product_id;
             $codProd = $row->product->code;
             $descr = $row->product->description;
             $um = $row->product->unit;
-            $ubi = $row->ubication;
+            $treat = $row->treatment->code;
             $mag = $row->warehouse->description;
-            $magId = $row->warehouse_id;
-            $refMag = $codProd . '-' . $magId;
-            if(!in_array($idProd, $aProducts)){
-                $totQta = InventorySimple::whereIn('id', $this->invIds)->where('product_id', $idProd)->where('warehouse_id', $magId)->sum('qty');
-                if($totQta>0){
-                    array_push($rows, [$mag, $codProd, $descr, $um, $totQta]);
-                    array_push($aProducts, $idProd);
-                    array_push($aRef, $refMag);
-                }
-            } else {
-                if(!in_array($refMag, $aRef)) {
-                    $totQta = InventorySimple::whereIn('id', $this->invIds)->where('product_id', $idProd)->where('warehouse_id', $magId)->sum('qty');
-                    if ($totQta > 0) {
-                        array_push($rows, [$mag, $codProd, $descr, $um, $totQta]);
-                        array_push($aRef, $refMag);                    
-                    }
-                }
-            }
+            $totqta = $row->totqta;
+            array_push($rows, [$codProd, $descr, $treat, $mag, $um, $totqta]);
         }
         return $rows;
     }
 
     public function headings(): array
     {
-        $head = ['Magazzino', 'Cod.Prodotto', 'Descr.Prodotto', 'UM', 'Qta'];
+        $head = ['Cod.Prodotto', 'Descr.Prodotto', 'Trattamento', 'Magazzino', 'UM', 'Qta'];
         return $head;
     }
 
@@ -91,7 +78,7 @@ class InventorySimpleWarehouseExport implements FromArray, WithMapping, WithHead
 
     public function map($row): array
     {
-        $body = [$row[0], strval($row[1]), $row[2] ?? '', $row[3], $row[4]];
+        $body = [strval($row[0]), $row[1], $row[2] ?? '', $row[3] ?? '', $row[4] ?? '', $row[5]];
         return $body;
     }
 }
