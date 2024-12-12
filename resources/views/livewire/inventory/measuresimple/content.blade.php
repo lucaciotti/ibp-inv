@@ -170,7 +170,7 @@
                         <x-adminlte-input name="codUbi" label="Codice Ubicazione:" placeholder="Codice Ubicazione" error-key="ubic_id" wire:model="codUbi" disabled>
                         <x-slot name="appendSlot">
                             <button class="btn btn-sm btn-outline-danger" type="button" wire:click="clearUbi" data-toggle="tooltip"
-                                data-placement="bottom" title="Reset Trattamento">
+                                data-placement="bottom" title="Reset Ubicazione">
                                 <i class="fas fa-fw fa-times"></i>
                             </button>
                         </x-slot>

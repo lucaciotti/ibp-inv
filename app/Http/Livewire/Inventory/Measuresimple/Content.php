@@ -10,6 +10,7 @@ use App\Models\InventorySimple;
 use App\Models\Product;
 use App\Models\Treatment;
 use App\Models\Ubication;
+use Auth;
 use Carbon\Carbon;
 use Str;
 
@@ -172,6 +173,11 @@ class Content extends DynamicContent
     public function checkHasTreatment()
     {
         $this->hasTreatment = $this->codClasse == 'PD';
+        // Qui aggiungo il fatto che se l'utente è Piastra l'Ubicazione è di default
+        if(Str::contains(Auth::user()->email, 'piastra', ignoreCase: true)){
+            $this->codUbi = 'PIASTRA';
+            $this->updatedCodUbi();
+        }
     }
     
     public function updatedCodUbi()
@@ -206,7 +212,7 @@ class Content extends DynamicContent
     public function selectedUbi($code){
         $record = Ubication::where('code', $code)->first();
         if (!$record) {
-            $this->addError('ubication', 'L\'Ubicazione NON è valida!');
+            $this->addError('ubic_id', 'L\'Ubicazione NON è valida!');
             return;
         }
 
@@ -218,6 +224,10 @@ class Content extends DynamicContent
 
     public function clearUbi()
     {
+        if (Str::contains(Auth::user()->email, 'piastra', ignoreCase: true)) {
+            $this->addError('ubic_id', 'Ubicazione forzata per utente corrente, non è possibile modificarla!');
+            return;
+        }
         $this->reset(['ubic_id', 'ubication', 'codUbi', 'listUbis', 'warehouse_id']);
     }
 
