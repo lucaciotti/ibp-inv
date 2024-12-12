@@ -9,6 +9,7 @@ use App\Models\InventoryMeasurement;
 use App\Models\InventorySimple;
 use App\Models\Warehouse;
 use Arr;
+use Auth;
 use Rappasoft\LaravelLivewireTables\Views\Filters\SelectFilter;
 use Rappasoft\LaravelLivewireTables\Views\Filters\TextFilter;
 use Session;
@@ -22,8 +23,12 @@ class MeasureSimpleTable extends DataTableComponent
     public function builder(): Builder
     {
         $this->invSession_id = Session::get('inventory.session.id');
-        return InventorySimple::query()
+        $q = InventorySimple::query()
             ->where('inventory_session_id', $this->invSession_id);
+        if (Auth::user()->roles()->first()->name=='user'){
+            $q = $q->whereHas('audits', function($q){$q->where('event', 'created')->where('user_id', Auth::user()->id);});
+        }
+        return $q;
     }
 
     protected function getListeners()
@@ -144,13 +149,16 @@ class MeasureSimpleTable extends DataTableComponent
 
     public function bulkActions(): array
     {
-        $actions = [
-            'deleteRows' => 'Cancella Sparata',
-            'hr1' => '---------------------------',
-            'xlsExport' => 'Export Xls - Totale x Ubicazione',
-            'xlsExportWarehous' => 'Export Xls - Totale x Magazzino',
-            'csvExport' => 'Export CSV - Totale',
-        ];
+        $actions = [];
+        if (Auth::user()->roles()->first()->name != 'user') {
+            $actions = [
+                'deleteRows' => 'Cancella Sparata',
+                'hr1' => '---------------------------',
+                'xlsExport' => 'Export Xls - Totale x Ubicazione',
+                'xlsExportWarehous' => 'Export Xls - Totale x Magazzino',
+                'csvExport' => 'Export CSV - Totale',
+            ];
+        }
 
         return $actions;
     }

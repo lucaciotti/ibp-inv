@@ -84,14 +84,14 @@ class UserController extends Controller
         $user->isActive = $req->input('isActive');
         $user->auto_email = $req->input('auto_email') ? $req->input('auto_email') : true;
         $user->save();
-        RedisUser::store();
+        // RedisUser::store();
         return ($req->input('role')=='3') ? Redirect::route('user::usersCli') : Redirect::route('user::users.index');
     }
 
     public function actLike(Request $req, $id)
     {
         Auth::loginUsingId($id);
-        // RedisUser::store();
+        // ::store();
         return redirect()->action([HomeController::class, 'index']);
     }
 

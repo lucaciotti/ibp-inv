@@ -176,6 +176,7 @@ class Content extends DynamicContent
     
     public function updatedCodUbi()
     {
+        str_replace("'", "-", $this->codUbi);
         $records = Ubication::where('code', $this->codUbi)->get();
         if (!$records || $records->count()!=1) {
             $this->addError('ubic_id', 'L\'Ubicazione NON è valida!');
