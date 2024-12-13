@@ -14,7 +14,7 @@ class ProductsTable extends DataTableComponent
     {
         $this->setPrimaryKey('id')
             ->setAdditionalSelects(['products.id as id'])
-            ->setDefaultSort('code', 'desc')
+            ->setDefaultSort('code', 'asc')
             ->setPerPage(25)
             ->setPerPageAccepted([25, 50, 75, 100])
             ->setTdAttributes(function (Column $column, $row, $columnIndex, $rowIndex) {
