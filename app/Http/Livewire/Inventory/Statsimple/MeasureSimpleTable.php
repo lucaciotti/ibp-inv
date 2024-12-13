@@ -169,9 +169,19 @@ class MeasureSimpleTable extends DataTableComponent
     public function bulkActions(): array
     {
         $actions = [];
+        $actionsExport = [];
         if (Auth::user()->roles()->first()->name != 'user') {
-            $actions = [
-                'deleteRows' => 'Cancella Sparata',
+            if (Auth::user()->roles()->first()->name == 'admin'){
+                $actions = [
+                    'deactiveRows' => 'Cancella Misurazione',
+                    // 'deleteRows' => 'Cancella Riga da DB. ATTENZIONE!',
+                ];
+            } else {
+                $actions = [
+                    'deactiveRows' => 'Cancella Misurazione',
+                ];
+            }
+            $actionsExport = [
                 'hr1' => '---------------------------',
                 'xlsExport' => 'Export Xls - Totale x Ubicazione',
                 'xlsExportWarehous' => 'Export Xls - Totale x Magazzino',
@@ -179,14 +189,22 @@ class MeasureSimpleTable extends DataTableComponent
             ];
         }
 
-        return $actions;
+        return array_merge($actions, $actionsExport);
+    }
+
+    public function deactiveRows()
+    {
+        foreach ($this->getSelected() as $id) {
+            // $tasks = InventorySimple::find($id)->update(['qty' => 0]);
+            $tasks = InventorySimple::find($id)->update(['active' => false]);
+        }
     }
 
     public function deleteRows()
     {
         foreach ($this->getSelected() as $id) {
             // $tasks = InventorySimple::find($id)->update(['qty' => 0]);
-            $tasks = InventorySimple::find($id)->update(['active' => false]);
+            $tasks = InventorySimple::find($id)->delete();
         }
     }
 
