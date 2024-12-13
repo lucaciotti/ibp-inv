@@ -52,37 +52,37 @@ class ProductsImport implements ToCollection, WithStartRow, WithChunkReading, Sk
 
             $year = (new DateTime())->format('Y');
 
-            if($codMag==''){
-                $codMag = '00';
-            }
-            if ($codUbi == '') {
-                $codUbi = '00';
-            }
+            // if($codMag==''){
+            //     $codMag = '00';
+            // }
+            // if ($codUbi == '') {
+            //     $codUbi = '00';
+            // }
 
-            try {
-                $warehouse = Warehouse::where('code', $codMag)->first();
-                if (!$warehouse) {
-                    $warehouse = Warehouse::create([
-                        'code' => $codMag,
-                        'description' => 'Mag. ' . $codMag
-                    ]);
-                }
-            } catch (\Throwable $th) {
-                report($th);
-            }
+            // try {
+            //     $warehouse = Warehouse::where('code', $codMag)->first();
+            //     if (!$warehouse) {
+            //         $warehouse = Warehouse::create([
+            //             'code' => $codMag,
+            //             'description' => 'Mag. ' . $codMag
+            //         ]);
+            //     }
+            // } catch (\Throwable $th) {
+            //     report($th);
+            // }
 
-            try {
-                $ubic = Ubication::where('code', $codUbi)->first();
-                if (!$ubic) {
-                    $ubic = Ubication::create([
-                        'code' => $codUbi,
-                        'description' => 'Ubi. ' . $codUbi,
-                        'warehouse_id' => $warehouse->id
-                    ]);
-                }
-            } catch (\Throwable $th) {
-                report($th);
-            }
+            // try {
+            //     $ubic = Ubication::where('code', $codUbi)->first();
+            //     if (!$ubic) {
+            //         $ubic = Ubication::create([
+            //             'code' => $codUbi,
+            //             'description' => 'Ubi. ' . $codUbi,
+            //             'warehouse_id' => $warehouse->id
+            //         ]);
+            //     }
+            // } catch (\Throwable $th) {
+            //     report($th);
+            // }
             
 
             try {
@@ -107,22 +107,22 @@ class ProductsImport implements ToCollection, WithStartRow, WithChunkReading, Sk
             }
             
 
-            try {
-                $stock = ProductStock::where('product_id', $prod->id)->where('ubic_id', $ubic->id)->where('year', $year)->first();
-                if (!$stock) {
-                    ProductStock::create([
-                        'product_id' => $prod->id,
-                        'ubic_id' => $ubic->id,
-                        'year' => $year,
-                        'stock' => $stockQta
-                    ]);
-                } else {
-                    $stock->stock = $stockQta;
-                    $stock->save();
-                }
-            } catch (\Throwable $th) {
-                report($th);
-            }
+            // try {
+            //     $stock = ProductStock::where('product_id', $prod->id)->where('ubic_id', $ubic->id)->where('year', $year)->first();
+            //     if (!$stock) {
+            //         ProductStock::create([
+            //             'product_id' => $prod->id,
+            //             'ubic_id' => $ubic->id,
+            //             'year' => $year,
+            //             'stock' => $stockQta
+            //         ]);
+            //     } else {
+            //         $stock->stock = $stockQta;
+            //         $stock->save();
+            //     }
+            // } catch (\Throwable $th) {
+            //     report($th);
+            // }
 
             Log::info('Imported Product Code: '.$codProd);
         }
