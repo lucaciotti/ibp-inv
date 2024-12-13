@@ -122,20 +122,27 @@ class Content extends DynamicContent
 
     public function updatedCodProd()
     {
-        $records = Product::where('code', $this->codProd)->orWhere('barcode', $this->codProd)->get();
-        if (!$records || $records->count()!=1) {
+        str_replace("'", "-", $this->codProd);
+        $records = Product::where('code', 'like', $this->codProd.'%')->orWhere('barcode', $this->codProd)->get();
+        if (!$records || $records->count()<0) {
             $this->addError('codProd', 'Il Prodotto NON è valido!');
             return;
-        } else {
+        } 
+        if ($records->count() == 1) {
             $this->product = $records->first();
-        }
 
-        $this->product_id = $this->product->id;
-        $this->codProd = $this->product->code;
-        $this->codClasse = $this->product->classe;
-        $this->descrProd = $this->product->description;
-        $this->umProd = $this->product->unit;
-        $this->checkHasTreatment();
+            $this->product_id = $this->product->id;
+            $this->codProd = $this->product->code;
+            $this->codClasse = $this->product->classe;
+            $this->descrProd = $this->product->description;
+            $this->umProd = $this->product->unit;
+            $this->checkHasTreatment();
+        } else {
+            $tempCodProd = $this->codProd;
+            $this->toogleSearch();
+            $this->search = $tempCodProd;
+            $this->updatedSearch();
+        }
     }
 
     public function updatedSearch()
@@ -172,7 +179,8 @@ class Content extends DynamicContent
 
     public function checkHasTreatment()
     {
-        $this->hasTreatment = $this->codClasse == 'PD';
+        // 13/12/2024 -> trattamento nonpiù richiesto
+        // $this->hasTreatment = $this->codClasse == 'PD';
         // Qui aggiungo il fatto che se l'utente è Piastra l'Ubicazione è di default
         if(Str::contains(Auth::user()->email, 'piastra', ignoreCase: true)){
             $this->codUbi = 'PIASTRA';
