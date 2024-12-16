@@ -39,7 +39,7 @@ class InventorySimpleWarehouseExport implements FromArray, WithMapping, WithHead
             $codProd = $row->product->code;
             $descr = $row->product->description;
             $um = $row->product->unit;
-            $treat = $row->treatment->code;
+            $treat = $row->treatment->code ?? '';
             $mag = $row->warehouse->description;
             $totqta = $row->totqta;
             array_push($rows, [$codProd, $descr, $treat, $mag, $um, $totqta]);
